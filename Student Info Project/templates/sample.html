@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Information Management</title>
+    <style>
+        /* Granite-Inspired Gradient Animation Background */
+        body {
+            font-family: Arial, sans-serif; /* This sets the text style. */
+            margin: 0; /* This removes any extra space around the page. */
+            padding: 0; /* This removes extra space inside the page. */
+            background: linear-gradient(145deg, #7d7e80, #6c6d70 30%, #2e3032 50%, #9aa1a6 70%, #eaeaea 90%);
+            background-blend-mode: overlay;
+            background-size: 400% 400%;
+            animation: graniteTexture 15s ease infinite;
+        }
+
+        @keyframes graniteTexture {
+            0% {
+                background-position: 0% 0%;
+            }
+            50% {
+                background-position: 100% 100%;
+            }
+            100% {
+                background-position: 0% 0%;
+            }
+        }
+
+        /* Container styles */
+        .container {
+            width: 40%;
+            max-height: 80vh;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            pointer-events: none;
+            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.4) 20%, transparent 30%),
+                radial-gradient(circle, rgba(255, 255, 255, 0.4) 20%, transparent 30%),
+                radial-gradient(circle, rgba(255, 255, 255, 0.4) 20%, transparent 30%);
+            background-size: 10% 10%, 20% 20%, 15% 15%;
+            background-position: 10% 10%, 30% 30%, 50% 50%;
+            background-repeat: no-repeat;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #222;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="number"],
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .button-section {
+            text-align: center;
+        }
+
+        .flash {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .flash.success {
+            background-color: #4CAF50;
+        }
+
+        .flash.error {
+            background-color: #f44336;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Student Information Management</h1>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <!-- Add Student Form -->
+        <form id="addStudentForm" action="/add_student" method="POST" class="form-section">
+            <h2>Add Student</h2>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" required>
+            <label for="grade">Grade:</label>
+            <input type="text" id="grade" name="grade" required>
+            <button type="submit">Add Student</button>
+        </form>
+
+        <!-- View Students Button -->
+        <div class="button-section">
+            <form action="/view_all_students" method="get">
+                <button type="submit">View All Students</button>
+            </form>
+        </div>
+
+        <!-- Update Student Form -->
+        <form id="updateStudentForm" action="/update_student" method="POST" class="form-section">
+            <h2>Update Student</h2>
+            <label for="updateId">ID:</label>
+            <input type="number" id="updateId" name="updateId" required>
+            <label for="updateName">Name:</label>
+            <input type="text" id="updateName" name="updateName">
+            <label for="updateAge">Age:</label>
+            <input type="number" id="updateAge" name="updateAge">
+            <label for="updateGrade">Grade:</label>
+            <input type="text" id="updateGrade" name="updateGrade">
+            <button type="submit">Update Student</button>
+        </form>
+
+        <!-- Delete Student Form -->
+        <form id="deleteStudentForm" action="/delete_student" method="POST" class="form-section">
+            <h2>Delete Student</h2>
+            <label for="deleteId">ID:</label>
+            <input type="number" id="deleteId" name="deleteId" required>
+            <button type="submit">Delete Student</button>
+        </form>
+    </div>
+</body>
+
+</html>
